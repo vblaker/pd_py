@@ -1,14 +1,9 @@
 import csv
-from collections import defaultdict
 import numpy as np
-import matplotlib.pyplot as plt
-import plotly.plotly as py
-import plotly.graph_objs as go
-from plotly.graph_objs import Scatter, Layout
-import plotly
+from plot_data import *
 
 #Define debug level
-debug = 2
+debug = 0
 
 #PD Data Center SW
 
@@ -34,7 +29,7 @@ def identify_column_headers(header_row, header_list, debug=0):
         for k in range(0, len(header_row)):
             header_dictionary[header_list[k]] = header_row.index(header_list[k])
     except ValueError:
-            print('header Parsing Error')
+            print('Header Parsing Error: Not a FLOAT')
 
     if debug >= 1:
         print(header_dictionary)
@@ -95,77 +90,10 @@ for i in range(0, len(data_list)):
         print('Data Set: {0}, Data: {1}'.format(data_list[1], data))
 
 #Create Data Dictionary
-#data_dict = {}
-#data_dict = defaultdict(list)
-#s = [('Time (s)', 1), ('blue', 2), ('yellow', 3), ('blue', 4), ('red', 1)]
+data_dictionary = dict(zip(header_list, data_list))
+print data_dictionary
 
-#for k, v in s:
-#    data_dict[k].append(v)
-#print(data_dict.items())
-
-
-if debug >= 2:
-    # Create traces
-    trace0 = go.Scatter(
-        x=Time_stamp,
-        y=VBUS_volts,
-        mode='lines+markers',
-        name='VBUS_volts (V)'
-    )
-    trace1 = go.Scatter(
-        x=Time_stamp,
-        y=VBUS_curr,
-        mode='lines+markers',
-        name='VBUS Current (A)'
-    )
-    trace2 = go.Scatter(
-        x=Time_stamp,
-        y=VCONN_volts,
-        mode='lines',
-        name='VCONN Voltage (V)'
-    )
-    trace3 = go.Scatter(
-        x=Time_stamp,
-        y=VCONN_volts,
-        mode='lines',
-        name='VCONN Voltage (V)'
-    )
-    trace4 = go.Scatter(
-        x=Time_stamp,
-        y=VCONN_curr,
-        mode='lines',
-        name='VCONN Current (A)'
-    )
-    trace5 = go.Scatter(
-        x=Time_stamp,
-        y=CC1_volts,
-        mode='lines',
-        name='CC1 Voltage (V)'
-    )
-    trace6 = go.Scatter(
-        x=Time_stamp,
-        y=CC1_curr,
-        mode='lines',
-        name='CC1 Current (A)'
-    )
-    trace7 = go.Scatter(
-        x=Time_stamp,
-        y=CC2_volts,
-        mode='lines',
-        name='CC2 Voltage (V)'
-    )
-    trace8 = go.Scatter(
-        x=Time_stamp,
-        y=CC2_curr,
-        mode='lines',
-        name='CC2 Current (A)'
-    )
-    data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8]
-
-    plotly.offline.plot({
-        "data": data,
-        "layout": Layout(title="PD PY Data Capture")})
-
+plot_data(data_dictionary, header_list)
 
 if debug >= 1:
     print('The size of data is {}'.format(len(VBUS_volts)))
