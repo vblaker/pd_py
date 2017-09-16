@@ -81,11 +81,9 @@ with open('export.csv') as csvfile:
                 print('Skipping row {}'.format(row))
 
 
-#Slice off last 100 values
 
 '''
-VBUS_volts = VBUS_volts[-100:]
-
+# Slice data - use only last 100 samples
 for i in range(0, len(data_list)):
     data = data_list[i]
     data_list[i] = data[-100:]
