@@ -3,11 +3,25 @@ from plotly.graph_objs import Scatter, Layout
 import plotly
 
 
-def plot_data(data_dictionary, header_list):
+def plot_data(data_dictionary):
+
+    '''
+    header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
+                   'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
+                   'CC2 Voltage (V)', 'CC2 Current (A)']
+    data_list = [Time_stamp, VBUS_volts, VBUS_curr, VCONN_volts, VCONN_curr, CC1_volts, CC1_curr, CC2_volts, CC2_curr]
+    '''
 
     # Extract Data
-    for key, value in data_dictionary.items():
-        data_dictionary[key] = data_dictionary[value]
+    Time_stamp = data_dictionary['Time (s)']
+    VBUS_volts = data_dictionary['VBUS Voltage (V)']
+    VBUS_curr = data_dictionary['VBUS Current (A)']
+    VCONN_volts = data_dictionary['VCONN Voltage (V)']
+    VCONN_curr = data_dictionary['VCONN Current (A)']
+    CC1_volts = data_dictionary['CC1 Voltage (V)']
+    CC1_curr = data_dictionary['CC1 Current (A)']
+    CC2_volts = data_dictionary['CC2 Voltage (V)']
+    CC2_curr = data_dictionary['CC2 Current (A)']
 
     # Create traces
     trace0 = go.Scatter(
