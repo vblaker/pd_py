@@ -1,6 +1,7 @@
 import csv
 import numpy as np
-from plot_data import *
+import plot_data
+import plot_data
 
 #Define debug level
 debug = 0
@@ -81,6 +82,8 @@ with open('export.csv') as csvfile:
 
 
 #Slice off last 100 values
+
+'''
 VBUS_volts = VBUS_volts[-100:]
 
 for i in range(0, len(data_list)):
@@ -88,12 +91,16 @@ for i in range(0, len(data_list)):
     data_list[i] = data[-100:]
     if debug >= 2:
         print('Data Set: {0}, Data: {1}'.format(data_list[1], data))
+'''
 
 #Create Data Dictionary
 data_dictionary = dict(zip(header_list, data_list))
-print data_dictionary
 
-plot_data(data_dictionary, header_list)
+if debug >= 2:
+    print data_dictionary
+
+# Call plot function to display IV data
+plot_data.plot_data(data_dictionary)
 
 if debug >= 1:
     print('The size of data is {}'.format(len(VBUS_volts)))
