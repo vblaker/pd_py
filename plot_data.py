@@ -4,7 +4,6 @@ import plotly
 
 
 def plot_data(data_dictionary):
-
     '''
     header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
                    'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
@@ -80,6 +79,7 @@ def plot_data(data_dictionary):
     )
     data = [trace0, trace1, trace2, trace3, trace4, trace5, trace6, trace7, trace8]
 
+    # Create a plot and output to a default browser
     plotly.offline.plot({
         "data": data,
         "layout": Layout(title="PD PY Data Capture")})
