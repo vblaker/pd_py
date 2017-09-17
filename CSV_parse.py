@@ -1,12 +1,11 @@
 import csv
 import numpy as np
 import plot_data
-import plot_data
 
-#Define debug level
+# Define debug level
 debug = 0
 
-#PD Data Center SW
+# PD Data Center SW
 
 header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
                'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
@@ -37,7 +36,7 @@ def identify_column_headers(header_row, header_list, debug=0):
 
     return header_dictionary
 
-#Initialize arrays/lists
+# Initialize arrays/lists
 Time_stamp = []
 VBUS_volts = []
 VBUS_curr = []
@@ -80,8 +79,6 @@ with open('export.csv') as csvfile:
             if debug >= 2:
                 print('Skipping row {}'.format(row))
 
-
-
 '''
 # Slice data - use only last 100 samples
 for i in range(0, len(data_list)):
@@ -91,7 +88,7 @@ for i in range(0, len(data_list)):
         print('Data Set: {0}, Data: {1}'.format(data_list[1], data))
 '''
 
-#Create Data Dictionary
+# Create Data Dictionary
 data_dictionary = dict(zip(header_list, data_list))
 
 if debug >= 2:
