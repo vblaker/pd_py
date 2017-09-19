@@ -34,33 +34,40 @@ import pd_py
 #==========================================================================
 # MAIN PROGRAM
 #==========================================================================
-print "Searching for Power Delivery Analyzers..."
 
-# Find all the attached devices
-ret = pd_py.pd_find_devices_ext(16, 16)
-if type(ret) is int:
-    print "Unable to find: %d(%s)" % (ret, pd_py.pd_status_string(ret))
-    exit(0)
+def detect_pd():
+    print "Searching for Power Delivery Analyzers..."
 
-(num, ports, unique_ids) = ret
+    # Find all the attached devices
+    ret = pd_py.pd_find_devices_ext(16, 16)
+    if type(ret) is int:
+        print "Unable to find: %d(%s)" % (ret, pd_py.pd_status_string(ret))
+        exit(0)
 
-if num > 0:
-    print "%d device(s) found:" % num
+    (num, ports, unique_ids) = ret
 
-    # Print the information on each device
-    for i in range(num):
-        port      = ports[i]
-        unique_id = unique_ids[i]
+    if num > 0:
+        print "%d device(s) found:" % num
 
-        # Determine if the device is in-use
-        inuse = "(avail)"
-        if (port & pd_py.PD_PORT_NOT_FREE):
-            inuse = "(in-use)"
-            port  = port & ~pd_py.PD_PORT_NOT_FREE
+        # Print the information on each device
+        for i in range(num):
+            port      = ports[i]
+            unique_id = unique_ids[i]
 
-        # Display device port number, in-use status, and serial number
-        print "    port = %d   %s  (%04d-%06d)" % \
-            (port, inuse, unique_id / 1000000, unique_id % 1000000)
+            # Determine if the device is in-use
+            inuse = "(avail)"
+            if (port & pd_py.PD_PORT_NOT_FREE):
+                inuse = "(in-use)"
+                port  = port & ~pd_py.PD_PORT_NOT_FREE
 
-else:
-    print "No devices found."
+            # Display device port number, in-use status, and serial number
+            print "    port = %d   %s  (%04d-%06d)" % \
+                (port, inuse, unique_id / 1000000, unique_id % 1000000)
+
+    else:
+        print "No devices found."
+
+    return ports, unique_ids
+
+
+#detect_pd()
