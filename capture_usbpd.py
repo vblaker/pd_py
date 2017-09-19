@@ -156,9 +156,10 @@ def print_pd_iv (idx, info, val):
         'CC1 Voltage', 'CC1 Current', 'CC2 Voltage', 'CC2 Current',
     ]
 
-    print '%s, %d%s' % (iv_type_str[iv_type], val,
-                       'mA' if (iv_type & 1) else 'mV')
-
+    # Create data list, convert mV/mA to V/A
+    data = [info.timestamp, iv_type_str[iv_type], val * 1e-3]
+    print('%s, %d%s' % (iv_type_str[iv_type], val, 'mA' if (iv_type & 1) else 'mV'))
+    return data
 
 #==========================================================================
 # DUMP FUNCTIONS
@@ -205,6 +206,7 @@ def dump_pd_data (pd, num_packets):
 
 def dump_pd_iv (pd, num_packets):
     packetnum = 0
+    data = []
 
     print "index,time(us),PD_IV,type,value"
 
@@ -218,9 +220,11 @@ def dump_pd_iv (pd, num_packets):
                    (ret, pd_py.pd_status_string(ret)))
             break
 
-        print_pd_iv(packetnum, info, val)
+        # Create a list of lists with single data points
+        data.append(print_pd_iv(packetnum, info, val))
 
         packetnum += 1
+    return data
 
 def dump_pd_all (pd, num_packets):
     packetnum = 0
@@ -308,7 +312,7 @@ def capture_usbpd(port=0, mode='iv', num=10):
     if mode == 'data':
         dump_pd_data(num)
     if mode == 'iv':
-        dump_pd_iv(pd, num)
+        data = dump_pd_iv(pd, num)
     if mode == 'all':
         dump_pd_all(num)
 
@@ -318,5 +322,6 @@ def capture_usbpd(port=0, mode='iv', num=10):
     # Close the device
     pd_py.pd_close(pd)
 
+    return data
 
 #capture_usbpd(0, 'iv', 10)
