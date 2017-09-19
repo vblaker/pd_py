@@ -275,7 +275,7 @@ For product documentation and specifications, see www.totalphase.com."""
 #==========================================================================
 # MAIN PROGRAM
 #==========================================================================
-def capture_usbpd(port, mode, num):
+def capture_usbpd(port=0, mode='iv', num=10):
 
     '''
     if (len(sys.argv) < 3):
