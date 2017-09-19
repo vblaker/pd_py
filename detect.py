@@ -27,7 +27,8 @@
 #==========================================================================
 # IMPORTS
 #==========================================================================
-from pd_py import *
+#from pd_py import *
+import pd_py
 
 
 #==========================================================================
@@ -36,9 +37,9 @@ from pd_py import *
 print "Searching for Power Delivery Analyzers..."
 
 # Find all the attached devices
-ret = pd_find_devices_ext(16, 16)
+ret = pd_py.pd_find_devices_ext(16, 16)
 if type(ret) is int:
-    print "Unable to find: %d(%s)" % (ret, pd_status_string(ret))
+    print "Unable to find: %d(%s)" % (ret, pd_py.pd_status_string(ret))
     exit(0)
 
 (num, ports, unique_ids) = ret
@@ -53,9 +54,9 @@ if num > 0:
 
         # Determine if the device is in-use
         inuse = "(avail)"
-        if (port & PD_PORT_NOT_FREE):
+        if (port & pd_py.PD_PORT_NOT_FREE):
             inuse = "(in-use)"
-            port  = port & ~PD_PORT_NOT_FREE
+            port  = port & ~pd_py.PD_PORT_NOT_FREE
 
         # Display device port number, in-use status, and serial number
         print "    port = %d   %s  (%04d-%06d)" % \
