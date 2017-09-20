@@ -145,9 +145,10 @@ def print_pd_packets (idx, info, preamble, header, crc, data):
     else:
         print '%08x(OK)' % crc
 
-def print_pd_iv (idx, info, val):
-    if not print_pd_info(idx, info, 'PD_IV'):
-        return
+def print_pd_iv (idx, info, val, debug):
+
+    #if not print_pd_info(idx, info, 'PD_IV'):
+    #   return
 
     iv_type = ((info.events & pd_py.PD_EVENT_USBPD_IV_SOURCE_MASK)
                >> pd_py.PD_EVENT_USBPD_IV_SHIFT)
@@ -157,8 +158,9 @@ def print_pd_iv (idx, info, val):
     ]
 
     # Create data list, convert mV/mA to V/A
-    data = [info.timestamp, iv_type_str[iv_type], val * 1e-3]
-    print('%s, %d%s' % (iv_type_str[iv_type], val, 'mA' if (iv_type & 1) else 'mV'))
+    data = [info.timestamp / 1e6, iv_type_str[iv_type], val * 1e-3]
+    if debug == 1:
+        print('%s, %d%s' % (iv_type_str[iv_type], val, 'mA' if (iv_type & 1) else 'mV'))
     return data
 
 #==========================================================================
@@ -204,7 +206,7 @@ def dump_pd_data (pd, num_packets):
 
         packetnum += 1
 
-def dump_pd_iv (pd, num_packets):
+def dump_pd_iv (pd, num_packets, debug):
     packetnum = 0
     data = []
 
@@ -221,7 +223,7 @@ def dump_pd_iv (pd, num_packets):
             break
 
         # Create a list of lists with single data points
-        data.append(print_pd_iv(packetnum, info, val))
+        data.append(print_pd_iv(packetnum, info, val, debug))
 
         packetnum += 1
     return data
@@ -279,7 +281,7 @@ For product documentation and specifications, see www.totalphase.com."""
 #==========================================================================
 # MAIN PROGRAM
 #==========================================================================
-def capture_usbpd(port=0, mode='iv', num=10):
+def capture_usbpd(port=0, mode='iv', num=10, debug=0):
 
     '''
     if (len(sys.argv) < 3):
@@ -291,9 +293,7 @@ def capture_usbpd(port=0, mode='iv', num=10):
     num  = int(sys.argv[3]) if len(sys.argv) == 4 else 0
     '''
 
-    #port = 0
-    #mode = 'iv'
-    #num  = 10
+    data = []
 
     # Open the device
     pd = pd_py.pd_open(port)
@@ -312,7 +312,7 @@ def capture_usbpd(port=0, mode='iv', num=10):
     if mode == 'data':
         dump_pd_data(num)
     if mode == 'iv':
-        data = dump_pd_iv(pd, num)
+        data = dump_pd_iv(pd, num, debug)
     if mode == 'all':
         dump_pd_all(num)
 
