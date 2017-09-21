@@ -15,6 +15,7 @@ header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltag
 # Set debug and plot flags
 debug = 0
 plot = 0
+save_to_file = 1
 
 # Initialize arrays/lists
 Time_stamp = []
@@ -40,7 +41,6 @@ for i in range(len(ports)):
 
 if debug == 1:
     print (data)
-
 
 # Parse out data. For time stamp pick every 8th data point
 for i in range(len(data)):
@@ -75,13 +75,6 @@ for key, value in data_dictionary.items():
     print('Number of samples in {} is {}'.format(key, len(data_dictionary[key])))
 
 
-if plot == 1:
-    # Call plot function to display IV data
-    plot_data.plot_data(data_dictionary)
-
-
-
-
 # Determine a smallest number of data points on all the lists in dictionary for proper file dump
 data_minimum_length = min([len(value) for key, value in data_dictionary.iteritems()])
 
@@ -101,11 +94,13 @@ for i in range(data_minimum_length):
     if j - 1 == 0: print(",".join(header_list))
     print(",".join(str_list))
 
+    if save_to_file == 1:
+        # Write Data to file
+        with open('my_file.csv', 'w') as f:
+            if j - 1 == 0: f.write(string(",".join(header_list)))
+            f.write(",".join(str_list))
+        f.close()
 
-'''
-# Write Data to file
-with open('my_file.csv', 'w') as f:
-    f.write(string(header_list))
-    [f.write('{0},{1}\n'.format(key, value)) for key, value in data_dictionary.items()]
-f.close()
-'''
+if plot == 1:
+    # Call plot function to display IV data
+    plot_data.plot_data(data_dictionary)
