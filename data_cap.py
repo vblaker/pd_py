@@ -15,7 +15,7 @@ header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltag
 # Set debug and plot flags
 debug = 0
 plot = 0
-save_to_file = 1
+save_to_file = 0
 
 # Initialize arrays/lists
 Time_stamp = []
