@@ -3,6 +3,9 @@ import detect
 import timeit
 import plot_data
 import string
+import datetime
+import sys
+import os
 
 # Define headers
 iv_type_str = ['Vbus Voltage', 'Vbus Current', 'Vconn Voltage', 'Vconn Current',
@@ -95,11 +98,19 @@ for i in range(data_minimum_length):
     print(",".join(str_list))
 
     if save_to_file == 1:
-        # Write Data to file
-        with open('my_file.csv', 'w') as f:
-            if j - 1 == 0: f.write(string(",".join(header_list)))
-            f.write(",".join(str_list))
-        f.close()
+        # Write Data to file with name of current date/time
+        filename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
+
+        try:
+            with open(filename, 'w') as f:
+                if j - 1 == 0: f.write(string(",".join(header_list)))
+                f.write(",".join(str_list))
+            f.close()
+        except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+            raise
 
 if plot == 1:
     # Call plot function to display IV data
