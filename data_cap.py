@@ -2,7 +2,7 @@ import capture_usbpd
 import detect
 import timeit
 import plot_data
-import string
+import save_to_csv
 
 # Define headers
 iv_type_str = ['Vbus Voltage', 'Vbus Current', 'Vconn Voltage', 'Vconn Current',
@@ -15,6 +15,7 @@ header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltag
 # Set debug and plot flags
 debug = 0
 plot = 0
+save_to_file = 1
 
 # Initialize arrays/lists
 Time_stamp = []
@@ -36,7 +37,7 @@ ports, unique_ids = detect.detect_pd()
 # Capture PD Data.
 # Sampling is roughly at 8 ms/sample or 125 samples/second. One sample is approximately 8 items on the list
 for i in range(len(ports)):
-    data = capture_usbpd.capture_usbpd(port=ports[i], mode='iv', num=500, debug=debug)
+    data = capture_usbpd.capture_usbpd(port=ports[i], mode='iv', num=100, debug=debug)
 
 if debug == 1:
     print (data)
@@ -71,28 +72,34 @@ if debug == 1:
 for key, value in data_dictionary.items():
     if len(value) == 0:
         data_dictionary[key] = [0.0] * len(data_dictionary['Time (s)'])
-    print('Number of samples in {} is {}'.format(key, len(data_dictionary[key])))
+
+    if debug == 1:
+        print('Number of samples in {} is {}'.format(key, len(data_dictionary[key])))
 
 
 # Determine a smallest number of data points on all the lists in dictionary for proper file dump
 data_minimum_length = min([len(value) for key, value in data_dictionary.iteritems()])
 
 # Iterate through dictionary to print out data to screen
-j = 0
-for i in range(data_minimum_length):
-    str_list = []
-    #for j in range(len(header_list)):
-    h = 0
-    for key in data_dictionary:
-        header = header_list[h]
-        str_list.append(str(data_dictionary[header][j]))
-        h += 1
-    j += 1
+if debug == 1:
+    for i in range(data_minimum_length):
+        str_list = []
+        j = 0
+        h = 0
+        #for j in range(len(header_list)):
+        for key in data_dictionary:
+            header = header_list[h]
+            str_list.append(str(data_dictionary[header][j]))
+            h += 1
+        j += 1
 
-    # Print header only first time
-    if j - 1 == 0: print(",".join(header_list))
-    print(",".join(str_list))
+        # Print header only first time
+        if i == 0: print(",".join(header_list))
+        print(",".join(str_list))
 
 if plot == 1:
     # Call plot function to display IV data
     plot_data.plot_data(data_dictionary)
+
+if save_to_file == 1:
+    save_to_csv.save_to_csv(data_dictionary, header_list)
