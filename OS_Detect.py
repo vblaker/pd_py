@@ -2,7 +2,7 @@ import platform
 import os
 import sys
 
-#Retrieves OS information
+# Retrieves OS information
 def os_detect(debug=0):
 
     if sys.platform.startswith('linux'):
@@ -46,5 +46,7 @@ def os_detect(debug=0):
     return (os_name, python_version, platform_architecture)
 
 
-os_name, python_version, platform_architecture = os_detect(debug=1)
-print(python_version, os_name, platform_architecture)
+'''
+os_name, python_version, platform_architecture = os_detect(debug=0)
+print(os_name, python_version, platform_architecture)
+'''
