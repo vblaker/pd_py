@@ -5,27 +5,17 @@ import os
 
 
 def save_to_csv(data_dictionary, header_list):
-    os_name, python_version, platform_architecture = osd.os_detect(debug=0)
     home_path = os.path.expanduser('~')
+    path = os.path.join(home_path, '/TotalPhase/traces/')
 
-    if os_name == 'Windows':
-        path = os.path.join(home_path + "\\TotalPhase\\traces\\")
-    elif os_name == 'Linux':
-        path = home_path + '/TotalPhase/traces/'
-
-    '''
     # Check if directory exists, and if not then create it
-    if not os.path.isdir(path):
-        os.mkdir(path)
-        print('Folder {} created!'.format(path))
-    '''
+    if not os.path.exists(path):
+        os.makedirs(path)
 
-        # Determine a smallest number of data points on all the lists in dictionary for proper file dump
+    # Determine a smallest number of data points on all the lists in dictionary for proper file dump
     data_minimum_length = min([len(value) for key, value in data_dictionary.iteritems()])
 
-
     # Write Data to file with name of current date/time
-    path = ''       #TODO empty path remove when done debugging
     filename = path + datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.csv'
 
     try:
@@ -54,4 +44,4 @@ def save_to_csv(data_dictionary, header_list):
         raise
 
     # Close the file when all the data is written
-    f.close()
+        f.close()
