@@ -86,7 +86,6 @@ if debug == 1:
         str_list = []
         j = 0
         h = 0
-        #for j in range(len(header_list)):
         for key in data_dictionary:
             header = header_list[h]
             str_list.append(str(data_dictionary[header][j]))
