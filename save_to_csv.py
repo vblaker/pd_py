@@ -27,7 +27,7 @@ def save_to_csv(data_dictionary, header_list):
                 h = 0
                 for key in data_dictionary:
                     header = header_list[h]
-                    str_list.append(str(data_dictionary[header][j]))
+                    str_list.append(str(data_dictionary[header][i]))
                     h += 1
                 j += 1
 
@@ -48,7 +48,7 @@ def save_to_csv(data_dictionary, header_list):
 # DEBUGGING ONLY
 #######################################
 data_dictionary = {'VBUS Voltage (V)': [0.0, 0.0], 'CC2 Current (A)': [0.0, 0.0], 'Time (s)': [0.097629, 0.105629],
-                   'VCONN Voltage (V)': [2.395, 2.395], 'VBUS Current (A)': [0.0, 0.0],
+                   'VCONN Voltage (V)': [2.395, 4.395], 'VBUS Current (A)': [0.0, 0.0],
                    'VCONN Current (A)': [0.0, 0.0], 'CC1 Current (A)': [0.0, 0.0],
                    'CC2 Voltage (V)': [0.0, 0.0], 'CC1 Voltage (V)': [0.0, 0.0]}
 
