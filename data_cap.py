@@ -14,8 +14,10 @@ header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltag
 
 # Set debug and plot flags
 debug = 1
-plot = 0
+plot = 1
 save_to_file = 1
+sampling_time_ms = 5000
+num_samples = ((sampling_time_ms+300)/1000 * 125)
 
 # Initialize arrays/lists
 Time_stamp = []
@@ -37,7 +39,7 @@ ports, unique_ids = detect.detect_pd()
 # Capture PD Data.
 # Sampling is roughly at 8 ms/sample or 125 samples/second. One sample is approximately 8 items on the list
 for i in range(len(ports)):
-    data = capture_usbpd.capture_usbpd(port=ports[i], mode='iv', num=625, debug=debug)
+    data = capture_usbpd.capture_usbpd(port=ports[i], mode='iv', num=num_samples, debug=debug)
 
 if debug == 1:
     print (data)
