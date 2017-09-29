@@ -70,4 +70,5 @@ def detect_pd():
     return ports, unique_ids
 
 
-#detect_pd()
+if __name__ == "__main__":
+    detect_pd()
