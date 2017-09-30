@@ -41,20 +41,20 @@ def save_to_csv(data_dictionary, header_list):
         print "Unexpected error:", sys.exc_info()[0]
         raise
 
-    f.close()                                                       # Close the file when all the data is written
+    f.close()   # Close the file when all the data is written
 
-'''
-#######################################
-# DEBUGGING ONLY
-#######################################
-data_dictionary = {'VBUS Voltage (V)': [0.0, 0.0], 'CC2 Current (A)': [0.0, 0.0], 'Time (s)': [0.097629, 0.105629],
-                   'VCONN Voltage (V)': [2.395, 4.395], 'VBUS Current (A)': [0.0, 0.0],
-                   'VCONN Current (A)': [0.0, 0.0], 'CC1 Current (A)': [0.0, 0.0],
-                   'CC2 Voltage (V)': [0.0, 0.0], 'CC1 Voltage (V)': [0.0, 0.0]}
 
-header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
-               'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
-               'CC2 Voltage (V)', 'CC2 Current (A)']
+if __name__ == "__main__":
+    #######################################
+    # DEBUGGING ONLY
+    #######################################
+    data_dictionary = {'VBUS Voltage (V)': [0.0, 0.0], 'CC2 Current (A)': [0.0, 0.0], 'Time (s)': [0.097629, 0.105629],
+                       'VCONN Voltage (V)': [2.395, 4.395], 'VBUS Current (A)': [0.0, 0.0],
+                       'VCONN Current (A)': [0.0, 0.0], 'CC1 Current (A)': [0.0, 0.0],
+                       'CC2 Voltage (V)': [0.0, 0.0], 'CC1 Voltage (V)': [0.0, 0.0]}
 
-save_to_csv(data_dictionary, header_list)
-'''
+    header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
+                   'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
+                   'CC2 Voltage (V)', 'CC2 Current (A)']
+
+    save_to_csv(data_dictionary, header_list)
