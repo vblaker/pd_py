@@ -46,7 +46,7 @@ def os_detect(debug=0):
     return (os_name, python_version, platform_architecture)
 
 
-'''
-os_name, python_version, platform_architecture = os_detect(debug=0)
-print(os_name, python_version, platform_architecture)
-'''
+# DEBUG and TEST statement
+if __name__ == "__main__":
+    os_name, python_version, platform_architecture = os_detect(debug=1)
+    print(os_name, python_version, platform_architecture)
