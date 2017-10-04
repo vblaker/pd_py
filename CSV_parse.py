@@ -77,7 +77,7 @@ with open('export.csv') as csvfile:
 
         except ValueError:
             if debug >= 2:
-                print('Skipping row {}'.format(row))
+                print('Skipping row {0}'.format(row))
 
 '''
 # Slice data - use only last 100 samples
