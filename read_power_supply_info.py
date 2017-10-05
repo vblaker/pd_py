@@ -18,6 +18,7 @@ with open('power_supply_info.csv', 'r') as csv_file:
                 header_dictionary = dict(zip(header_list, range(len(header_list))))     # Create header dictionary
                 data_dictionary = {key: [] for key in header_dictionary}                # Init data dictionary
                 continue
+
             try:
                 test = int(row[0][:4])
                 time_stamp = row[0]
