@@ -1,13 +1,13 @@
 import csv
 
 debug = 1
+data_dictionary = {}
 
 with open('power_supply_info.csv', 'r') as csv_file:
     readCSV = csv.reader(csv_file, delimiter=',')
     for row in readCSV:
         if row:
             if row[0] == 'TimeStamp':
-
                 # Check for non-empty header values
                 header_list = []
                 for i in range(len(row)):
