@@ -1,7 +1,7 @@
 import csv
 import datetime as dt
 
-debug = 1
+debug = 0
 data_dictionary = {}
 
 with open('power_supply_info.csv', 'r') as csv_file:
@@ -9,8 +9,12 @@ with open('power_supply_info.csv', 'r') as csv_file:
     for row in readCSV:
         if row:
             if 'TimeStamp' in row:
-                # Check for non-empty header values
+                # Reset / init lists and dictionaries
                 header_list = []
+                header_dictionary = {}
+                data_dictionary = {}
+
+                # DATA VALIDATION: Check for non-empty headers
                 for i in range(len(row)):
                     if row[i]: header_list.append(row[i])
                 if debug == 1: print(header_list)
