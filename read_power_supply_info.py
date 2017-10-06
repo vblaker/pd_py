@@ -30,7 +30,7 @@ with open('power_supply_info.csv', 'r') as csv_file:
                     time_stamp = dt.datetime.strptime(time_stamp_str, '%Y-%m-%d-%H:%M:%S.%f')
                     if debug == 1:
                         print(time_stamp)
-                    for header in header_dictionary:                                        # Append values to data dictionary
+                    for header in header_dictionary:                            # Append values to data dictionary
                         data_dictionary[header].append(row[header_dictionary[header]])
                 except ValueError:
                     if debug == 1:
