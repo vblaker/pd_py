@@ -1,5 +1,5 @@
 import csv
-import datetime
+import datetime as dt
 
 debug = 1
 data_dictionary = {}
@@ -23,7 +23,7 @@ with open('power_supply_info.csv', 'r') as csv_file:
                 try:
                     time_stamp_str = row[header_dictionary['TimeStamp']]        # Find column TimeStamp and get value
                     test = int(time_stamp_str[:4])                              # Slice first 4 chars (YEAR) and TEST
-                    time_stamp = datetime.datetime.strptime(time_stamp_str, '%Y-%m-%d-%H:%M:%S.%f')
+                    time_stamp = dt.datetime.strptime(time_stamp_str, '%Y-%m-%d-%H:%M:%S.%f')
                     if debug == 1:
                         print(time_stamp)
                     for header in header_dictionary:                                        # Append values to data dictionary
