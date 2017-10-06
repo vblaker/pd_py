@@ -1,4 +1,5 @@
 import csv
+import datetime
 
 debug = 1
 data_dictionary = {}
@@ -7,7 +8,7 @@ with open('power_supply_info.csv', 'r') as csv_file:
     readCSV = csv.reader(csv_file, delimiter=',')
     for row in readCSV:
         if row:
-            if row[0] == 'TimeStamp':
+            if 'TimeStamp' in row:
                 # Check for non-empty header values
                 header_list = []
                 for i in range(len(row)):
@@ -17,16 +18,19 @@ with open('power_supply_info.csv', 'r') as csv_file:
                 # Identify all the Column Headers
                 header_dictionary = dict(zip(header_list, range(len(header_list))))     # Create header dictionary
                 data_dictionary = {key: [] for key in header_dictionary}                # Init data dictionary
-                continue
 
-            try:
-                test = int(row[0][:4])
-                time_stamp = row[0]
-                if debug == 1:
-                    print(time_stamp)
-                for header in header_dictionary:                                        # Append values to data dictionary
-                    data_dictionary[header].append(row[header_dictionary[header]])
-            except ValueError:
-                    print('Skipping row {0}'.format(row))
+            if data_dictionary:
+                try:
+                    time_stamp_str = row[header_dictionary['TimeStamp']]        # Find column TimeStamp and get value
+                    test = int(time_stamp_str[:4])                              # Slice first 4 chars (YEAR) and TEST
+                    time_stamp = datetime.datetime.strptime(time_stamp_str, '%Y-%m-%d-%H:%M:%S.%f')
+                    if debug == 1:
+                        print(time_stamp)
+                    for header in header_dictionary:                                        # Append values to data dictionary
+                        data_dictionary[header].append(row[header_dictionary[header]])
+                except ValueError:
+                    if debug == 1:
+                        print('Skipping row {0}'.format(row))
 
-print(data_dictionary)
+if debug == 1:
+    print(data_dictionary)
