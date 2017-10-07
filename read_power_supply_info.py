@@ -1,6 +1,17 @@
 import csv
 import datetime as dt
 
+
+def str2float_list(data_dict, data_key):
+    try:
+        data_float_list = [float(data_list) for data_list in data_dict[data_key]]
+        fail_flag = False
+    except ValueError:
+        fail_flag = True
+
+    return data_float_list, fail_flag
+
+
 debug = 0
 data_dictionary = {}
 
@@ -36,5 +47,10 @@ with open('power_supply_info.csv', 'r') as csv_file:
                     if debug == 1:
                         print('Skipping row {0}'.format(row))
 
-if debug == 1:
-    print(data_dictionary)
+
+if __name__ == "__main__":
+    #######################################
+    # DEBUGGING ONLY
+    #######################################
+    if debug == 1:
+        print(data_dictionary)
