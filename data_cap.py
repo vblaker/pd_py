@@ -76,7 +76,7 @@ for key, value in data_dictionary.items():
         data_dictionary[key] = [0.0] * len(data_dictionary['Time (s)'])
 
     if debug == 1:
-        print('Number of samples in {} is {}'.format(key, len(data_dictionary[key])))
+        print('Number of samples in {0} is {1}'.format(key, len(data_dictionary[key])))
 
 
 # Determine a smallest number of data points on all the lists in dictionary for proper file dump
