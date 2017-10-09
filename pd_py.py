@@ -570,15 +570,17 @@ def pd_usbpd_read_data (pd, data):
 
 
 # Read IV data
-def pd_usbpd_read_iv (pd):
+import datetime
+def pd_usbpd_read_iv(pd):
     """usage: (int return, PdReadInfo read_info, int val) = pd_usbpd_read_iv(Pd pd)"""
-
     if not PD_LIBRARY_LOADED: return PD_INCOMPATIBLE_LIBRARY
     # Call API function
     (_ret_, c_read_info, val) = api.py_pd_usbpd_read_iv(pd)
+
     # read_info post-processing
     read_info = PdReadInfo()
     (read_info.timestamp, read_info.duration, read_info.status, read_info.events) = c_read_info
-    return (_ret_, read_info, val)
+    real_time_date = datetime.datetime.now()
+    return(_ret_, read_info, val, real_time_date)
 
 
