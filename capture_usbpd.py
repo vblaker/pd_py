@@ -145,7 +145,7 @@ def print_pd_packets (idx, info, preamble, header, crc, data):
     else:
         print '%08x(OK)' % crc
 
-def print_pd_iv (idx, info, val, debug):
+def print_pd_iv (idx, info, val, debug, real_time):
 
     #if not print_pd_info(idx, info, 'PD_IV'):
     #   return
@@ -158,7 +158,7 @@ def print_pd_iv (idx, info, val, debug):
     ]
 
     # Create data list, convert mV/mA to V/A
-    data = [info.timestamp / 1e6, iv_type_str[iv_type], val * 1e-3]
+    data = [info.timestamp / 1e6, iv_type_str[iv_type], val * 1e-3, real_time]
     if debug == 1:
         print('%s, %d%s' % (iv_type_str[iv_type], val, 'mA' if (iv_type & 1) else 'mV'))
     return data
@@ -213,7 +213,7 @@ def dump_pd_iv (pd, num_packets, debug):
     print "index,time(us),PD_IV,type,value"
 
     while (num_packets <= 0 or packetnum < num_packets):
-        ret, info, val = pd_py.pd_usbpd_read_iv(pd)
+        ret, info, val, real_time = pd_py.pd_usbpd_read_iv(pd)
         if ret == pd_py.PD_READ_EMPTY:
             continue
 
@@ -223,7 +223,7 @@ def dump_pd_iv (pd, num_packets, debug):
             break
 
         # Create a list of lists with single data points
-        data.append(print_pd_iv(packetnum, info, val, debug))
+        data.append(print_pd_iv(packetnum, info, val, debug, real_time))
 
         packetnum += 1
     return data

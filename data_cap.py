@@ -10,11 +10,11 @@ iv_type_str = ['Vbus Voltage', 'Vbus Current', 'Vconn Voltage', 'Vconn Current',
 
 header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
                'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
-               'CC2 Voltage (V)', 'CC2 Current (A)']
+               'CC2 Voltage (V)', 'CC2 Current (A)', 'Real-Time Stamp']
 
 # Set debug and plot flags
-debug = 1
-plot = 1
+debug = 0
+plot = 0
 save_to_file = 1
 sampling_time_ms = 5000
 num_samples = ((sampling_time_ms+300)/1000 * 125)
@@ -29,8 +29,10 @@ CC1_volts = []
 CC1_curr = []
 CC2_volts = []
 CC2_curr = []
+Real_time = []
 
-data_list = [Time_stamp, VBUS_volts, VBUS_curr, VCONN_volts, VCONN_curr, CC1_volts, CC1_curr, CC2_volts, CC2_curr]
+data_list = [Time_stamp, VBUS_volts, VBUS_curr, VCONN_volts, VCONN_curr,
+             CC1_volts, CC1_curr, CC2_volts, CC2_curr, Real_time]
 header_dict = {}
 
 # Detect PD Analyzers
@@ -44,7 +46,7 @@ for i in range(len(ports)):
 if debug == 1:
     print (data)
 
-# Parse out data. For time stamp pick every 8th data point
+# Parse out data. For time stamp pick every 8th data point for easy plotting
 for i in range(len(data)):
     if (i % len(iv_type_str)) == 0:
         Time_stamp.append(data[i][0])
@@ -64,6 +66,7 @@ for i in range(len(data)):
         CC2_volts.append(data[i][2])
     elif data[i][1] == 'CC2 Current':
         CC2_curr.append(data[i][2])
+    Real_time.append(data[i][3])
 
 # Create Data Dictionary
 data_dictionary = dict(zip(header_list, data_list))
