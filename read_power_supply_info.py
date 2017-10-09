@@ -3,6 +3,7 @@ import datetime as dt
 
 
 def str2float_list(data_dict, data_key):
+    data_float_list = []
     try:
         data_float_list = [float(data_list) for data_list in data_dict[data_key]]
         fail_flag = False
