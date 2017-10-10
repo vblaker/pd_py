@@ -8,9 +8,13 @@ import save_to_csv
 iv_type_str = ['Vbus Voltage', 'Vbus Current', 'Vconn Voltage', 'Vconn Current',
     'CC1 Voltage', 'CC1 Current', 'CC2 Voltage', 'CC2 Current']
 
-header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltage (V)',
-               'VCONN Current (A)', 'CC1 Voltage (V)', 'CC1 Current (A)',
-               'CC2 Voltage (V)', 'CC2 Current (A)', 'Real-Time Stamp']
+header_list = ['Time', 'Vbus Voltage', 'Vbus Current', 'Vconn Voltage', 'Vconn Current',
+    'CC1 Voltage', 'CC1 Current', 'CC2 Voltage', 'CC2 Current', 'Real-Time Stamp']
+
+# Set column positions for data labels and data values
+col_data_label = 1
+col_data_val = 2
+
 
 # Set debug and plot flags
 debug = 1
@@ -19,67 +23,31 @@ save_to_file = 1
 sampling_time_ms = 5000
 num_samples = ((sampling_time_ms+300)/1000 * 125)
 
-# Initialize arrays/lists
-Time_stamp = []
-VBUS_volts = []
-VBUS_curr = []
-VCONN_volts = []
-VCONN_curr = []
-CC1_volts = []
-CC1_curr = []
-CC2_volts = []
-CC2_curr = []
-Real_time = []
-
-data_list = [Time_stamp, VBUS_volts, VBUS_curr, VCONN_volts, VCONN_curr,
-             CC1_volts, CC1_curr, CC2_volts, CC2_curr, Real_time]
-header_dict = {}
-
 # Detect PD Analyzers
 ports, unique_ids = detect.detect_pd()
 
-# Capture PD Data.
-# Sampling is roughly at 8 ms/sample or 125 samples/second. One sample is approximately 8 items on the list
+# Capture PD Data. Sampling is roughly at 8 ms/sample or 125 samples/second.
 for i in range(len(ports)):
     data = capture_usbpd.capture_usbpd(port=ports[i], mode='iv', num=num_samples, debug=debug)
 
 if debug == 1:
     print (data)
 
-# Parse out data and assign real-time labels to samples
-for i in range(len(data)):
-    if data[i][1] == 'Vbus Voltage': VBUS_volts.append(data[i][2])
-    else: VBUS_volts.append('-')
 
-    if data[i][1] == 'Vbus Current': VBUS_curr.append(data[i][2])
-    else: VBUS_curr.append('-')
+header_dictionary = dict(zip(header_list, range(len(header_list))))     # Create header dictionary
+data_dictionary = {key: [] for key in header_dictionary}                # Init data dictionary
 
-    if data[i][1] == 'Vconn Voltage': VCONN_volts.append(data[i][2])
-    else: VCONN_volts.append('-')
-
-    if data[i][1] == 'Vconn Current': VCONN_curr.append(data[i][2])
-    else: VCONN_curr.append('-')
-
-    if data[i][1] == 'CC1 Voltage': CC1_volts.append(data[i][2])
-    else: CC1_volts.append('-')
-
-    if data[i][1] == 'CC1 Current': CC1_curr.append(data[i][2])
-    else: CC1_curr.append('-')
-
-    if data[i][1] == 'CC2 Voltage': CC2_volts.append(data[i][2])
-    else: CC2_volts.append('-')
-
-    if data[i][1] == 'CC2 Current': CC2_curr.append(data[i][2])
-    else: CC2_curr.append('-')
-
-    Time_stamp.append(data[i][0])
-    Real_time.append(data[i][3])
-
-
-# Create Data Dictionary
-data_dictionary = dict(zip(header_list, data_list))
 if debug == 1:
     print(data_dictionary)
+
+# Parse out data and assign real-time labels to samples
+for i in range(len(data)):
+    for j in range(len(iv_type_str)):
+        if data[i][col_data_label] == iv_type_str[j]: data_dictionary[(iv_type_str[j])].append(data[i][col_data_val])
+        else: data_dictionary[(iv_type_str[j])].append('-')
+
+    data_dictionary['Time'].append(data[i][0])
+    data_dictionary['Real-Time Stamp'].append(data[i][3])
 
 # Determine a largest number of data points on all the lists in dictionary for proper file dump
 data_min_length = min([len(value) for key, value in data_dictionary.iteritems()])
