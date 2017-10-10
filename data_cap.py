@@ -21,7 +21,7 @@ debug = 0
 plot = 0
 save_to_file = 1
 sampling_time_ms = 5000
-num_samples = ((sampling_time_ms+300)/1000 * 125)
+num_samples = ((sampling_time_ms + 300) / 1000 * 125)
 
 # Detect PD Analyzers
 ports, unique_ids = detect.detect_pd()
@@ -41,6 +41,8 @@ if debug == 1:
     print(data_dictionary)
 
 # Parse out data and assign real-time labels to samples
+#  time_stamp = datetime.datetime.strptime('2017-10-10 12:05:48.442000', '%Y-%m-%d %H:%M:%S.%f') TODO
+
 for i in range(len(data)):
     for j in range(len(iv_type_str)):
         if data[i][col_data_label] == iv_type_str[j]: data_dictionary[(iv_type_str[j])].append(data[i][col_data_val])
