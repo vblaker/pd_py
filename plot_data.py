@@ -12,15 +12,15 @@ def plot_data(data_dictionary):
     '''
 
     # Extract Data
-    Time_stamp = data_dictionary['Time (s)']
-    VBUS_volts = data_dictionary['VBUS Voltage (V)']
-    VBUS_curr = data_dictionary['VBUS Current (A)']
-    VCONN_volts = data_dictionary['VCONN Voltage (V)']
-    VCONN_curr = data_dictionary['VCONN Current (A)']
-    CC1_volts = data_dictionary['CC1 Voltage (V)']
-    CC1_curr = data_dictionary['CC1 Current (A)']
-    CC2_volts = data_dictionary['CC2 Voltage (V)']
-    CC2_curr = data_dictionary['CC2 Current (A)']
+    Time_stamp = data_dictionary['Time']
+    VBUS_volts = data_dictionary['Vbus Voltage']
+    VBUS_curr = data_dictionary['Vbus Current']
+    VCONN_volts = data_dictionary['Vconn Voltage']
+    VCONN_curr = data_dictionary['Vconn Current']
+    CC1_volts = data_dictionary['CC1 Voltage']
+    CC1_curr = data_dictionary['CC1 Current']
+    CC2_volts = data_dictionary['CC2 Voltage']
+    CC2_curr = data_dictionary['CC2 Current']
 
     # Create traces
     trace0 = go.Scatter(
