@@ -13,7 +13,7 @@ header_list = ['Time (s)', 'VBUS Voltage (V)', 'VBUS Current (A)', 'VCONN Voltag
                'CC2 Voltage (V)', 'CC2 Current (A)', 'Real-Time Stamp']
 
 # Set debug and plot flags
-debug = 0
+debug = 1
 plot = 0
 save_to_file = 1
 sampling_time_ms = 5000
@@ -46,48 +46,47 @@ for i in range(len(ports)):
 if debug == 1:
     print (data)
 
-# Parse out data. For time stamp pick every 8th data point for easy plotting
+# Parse out data and assign real-time labels to samples
 for i in range(len(data)):
-    if (i % len(iv_type_str)) == 0:
-        Time_stamp.append(data[i][0])
-    elif data[i][1] == 'Vbus Voltage':
-        VBUS_volts.append(data[i][2])
-    elif data[i][1] == 'Vbus Current':
-        VBUS_curr.append(data[i][2])
-    elif data[i][1] == 'Vconn Voltage':
-        VCONN_volts.append(data[i][2])
-    elif data[i][1] == 'Vconn Current':
-        VCONN_curr.append(data[i][2])
-    elif data[i][1] == 'CC1 Voltage':
-        CC1_volts.append(data[i][2])
-    elif data[i][1] == 'CC1 Current':
-        CC1_curr.append(data[i][2])
-    elif data[i][1] == 'CC2 Voltage':
-        CC2_volts.append(data[i][2])
-    elif data[i][1] == 'CC2 Current':
-        CC2_curr.append(data[i][2])
+    if data[i][1] == 'Vbus Voltage': VBUS_volts.append(data[i][2])
+    else: VBUS_volts.append('-')
+
+    if data[i][1] == 'Vbus Current': VBUS_curr.append(data[i][2])
+    else: VBUS_curr.append('-')
+
+    if data[i][1] == 'Vconn Voltage': VCONN_volts.append(data[i][2])
+    else: VCONN_volts.append('-')
+
+    if data[i][1] == 'Vconn Current': VCONN_curr.append(data[i][2])
+    else: VCONN_curr.append('-')
+
+    if data[i][1] == 'CC1 Voltage': CC1_volts.append(data[i][2])
+    else: CC1_volts.append('-')
+
+    if data[i][1] == 'CC1 Current': CC1_curr.append(data[i][2])
+    else: CC1_curr.append('-')
+
+    if data[i][1] == 'CC2 Voltage': CC2_volts.append(data[i][2])
+    else: CC2_volts.append('-')
+
+    if data[i][1] == 'CC2 Current': CC2_curr.append(data[i][2])
+    else: CC2_curr.append('-')
+
+    Time_stamp.append(data[i][0])
     Real_time.append(data[i][3])
+
 
 # Create Data Dictionary
 data_dictionary = dict(zip(header_list, data_list))
 if debug == 1:
     print(data_dictionary)
 
-# Iterate through data_dictionary and 0-pad empty lists
-for key, value in data_dictionary.items():
-    if len(value) == 0:
-        data_dictionary[key] = [0.0] * len(data_dictionary['Time (s)'])
-
-    if debug == 1:
-        print('Number of samples in {0} is {1}'.format(key, len(data_dictionary[key])))
-
-
-# Determine a smallest number of data points on all the lists in dictionary for proper file dump
-data_minimum_length = min([len(value) for key, value in data_dictionary.iteritems()])
+# Determine a largest number of data points on all the lists in dictionary for proper file dump
+data_min_length = min([len(value) for key, value in data_dictionary.iteritems()])
 
 # Iterate through dictionary to print out data to screen
 if debug == 1:
-    for i in range(data_minimum_length):
+    for i in range(data_min_length):
         str_list = []
         j = 0
         h = 0
