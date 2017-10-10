@@ -17,7 +17,7 @@ col_data_val = 2
 
 
 # Set debug and plot flags
-debug = 1
+debug = 0
 plot = 0
 save_to_file = 1
 sampling_time_ms = 5000
