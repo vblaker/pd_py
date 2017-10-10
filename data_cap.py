@@ -42,6 +42,7 @@ if debug == 1:
 
 # Parse out data and assign real-time labels to samples
 #  time_stamp = datetime.datetime.strptime('2017-10-10 12:05:48.442000', '%Y-%m-%d %H:%M:%S.%f') TODO
+#  time_stamp + datetime.timedelta(seconds=120) TODO
 
 for i in range(len(data)):
     for j in range(len(iv_type_str)):
