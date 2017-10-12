@@ -59,7 +59,7 @@ for i in range(len(data)):
         append(real_time_cap_start + datetime.timedelta(seconds=float(data[i][col_data_time])))
 
 # Determine a largest number of data points on all the lists in dictionary for proper file dump
-data_min_length = min([len(value) for key, value in data_dictionary.iteritems()])
+data_min_length = min([len(value) for value in data_dictionary])
 
 # Iterate through dictionary to print out data to screen
 if debug == 1:
